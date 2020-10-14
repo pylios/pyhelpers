@@ -1,4 +1,6 @@
-import datetime
+import datetime, pprint
+
+log_printer = pprint.PrettyPrinter(compact=False, width=40).pprint
 
 
 def log(
@@ -26,12 +28,29 @@ def log(
 
     level = "(" + level.upper() + ") " if level != "" else ""
 
-    print(
-        "{color_code}[{timestamp}] {level}{message}{end_color}".format(
-            color_code=color_code,
+    if isinstance(message, str):
+        print(
+            "{color_code}[{timestamp}] {level}{message}{end_color}".format(
+                color_code=color_code,
+                timestamp=timestamp,
+                level=level,
+                message=message,
+                end_color="\033[0m" if color else "",
+            )
+        )
+
+    else:
+
+        return_val = "{color_code}[{timestamp}] ---[ Printing {var_type} ]---\n".format(
+            color_code=color_code, timestamp=timestamp, var_type=type(message)
+        )
+        return_val += pprint.pformat(message) + "\n"
+        return_val += "[{timestamp}] ---[ End      {var_type} ]---{end_color}".format(
             timestamp=timestamp,
-            level=level,
-            message=message,
+            var_type=type(message),
             end_color="\033[0m" if color else "",
         )
-    )
+        print(return_val)
+        return
+
+    return
