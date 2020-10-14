@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pylioshelpers",
-    version="0.0.3",
+    version="0.1.0",
     author="Matt Walters",
     description="Set of helpers for Pylios",
     long_description=long_description,
