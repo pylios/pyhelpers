@@ -106,11 +106,12 @@ def deprecated(func):
 
     @functools.wraps(func)
     def new_func(*args, **kwargs):
+        warnings.simplefilter("always", DeprecationWarning)
         warnings.warn_explicit(
             "Call to deprecated function {}.".format(func.__name__),
             category=DeprecationWarning,
-            filename=func.func_code.co_filename,
-            lineno=func.func_code.co_firstlineno + 1,
+            filename=func.__code__.co_filename,
+            lineno=func.__code__.co_firstlineno + 1,
         )
         return func(*args, **kwargs)
 
